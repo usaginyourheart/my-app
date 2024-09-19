@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile/bio', [UserController::class, 'updateBio'])->name('profile.update-bio');
     Route::resource('diary', DiaryEntryController::class);
     Route::get('/display_diary', [DiaryEntryController::class, 'display_diary'])->name('diary.display_diary');
+    Route::get('/conflict', [DiaryEntryController::class, 'conflict'])->name('diary.conflict');
 });
 
 Route::post('/profile-photo', [UserController::class, 'updateProfilePhoto'])->name('profile-photo.update');

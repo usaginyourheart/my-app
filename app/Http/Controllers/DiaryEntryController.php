@@ -159,4 +159,19 @@ class DiaryEntryController extends Controller
             ->get();
         return view('diary.display_diary', compact('diaryEntries'));
     }
+
+    public function conflict()
+    {
+        $userId = Auth::id();
+        $conflictDiaries = DB::table('diary_entries')
+            ->join('diary_entry_emotions', 'diary_entry_emotions.diary_entry_id', '=', 'diary_entries.id')
+            ->join('emotions', 'emotions.id', '=', 'diary_entry_emotions.emotion_id')
+            ->select('diary_entry_emotions.intensity', 'diary_entries.id', 'diary_entries.content', 'diary_entries.created_at', 'emotions.name')
+            ->where('diary_entries.user_id', $userId)
+            ->where('diary_entries.content', 'like', '%Happy%')
+            ->where('emotions.name', 'Sad')
+            ->get();
+        return view('diary.conflict', compact('conflictDiaries'));
+        // return response()->json($conflictDiaries);
+    }
 }
